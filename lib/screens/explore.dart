@@ -18,8 +18,34 @@ class _ExplorePageState extends State<ExplorePage>
   final List<SwipeItem> _swipeItems = <SwipeItem>[];
   late MatchEngine _matchEngine;
   // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  final List<String> _names = ["Red", "Blue", "Green", "Yellow", "Orange"];
+  final List<String> _names = [
+    "Red",
+    "Blue",
+    "Green",
+    "Yellow",
+    "Orange",
+    "Red",
+    "Blue",
+    "Green",
+    "Yellow",
+    "Orange",
+    "Red",
+    "Blue",
+    "Green",
+    "Yellow",
+    "Orange"
+  ];
   final List<Color> _colors = [
+    Colors.red,
+    Colors.blue,
+    Colors.green,
+    Colors.yellow,
+    Colors.orange,
+    Colors.red,
+    Colors.blue,
+    Colors.green,
+    Colors.yellow,
+    Colors.orange,
     Colors.red,
     Colors.blue,
     Colors.green,
@@ -72,65 +98,103 @@ class _ExplorePageState extends State<ExplorePage>
   }
 
   Widget getBody() {
-    var size = MediaQuery.of(context).size;
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 120),
+    return Transform.scale(
+      scale: 1.05,
       child: SizedBox(
-        height: size.height,
-        child: Column(children: [
-          SizedBox(
-            height: 450,
-            child: SwipeCards(
-              matchEngine: _matchEngine,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  alignment: Alignment.center,
-                  color: _swipeItems[index].content.color,
-                  child: Text(
-                    _swipeItems[index].content.text,
-                    style: const TextStyle(fontSize: 100),
-                  ),
-                );
-              },
-              onStackFinished: () {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text("Stack Finished"),
-                  duration: Duration(milliseconds: 500),
-                ));
-              },
-            ),
+        child: Expanded(
+          child: SwipeCards(
+            matchEngine: _matchEngine,
+            itemBuilder: (BuildContext context, int index) {
+              return Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                elevation: 5,
+                shadowColor: Colors.black.withOpacity(0.5),
+                semanticContainer: true,
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                child: Stack(
+                  children: [
+                    const SizedBox(
+                      width: double.infinity,
+                      child: Image(
+                        height: double.infinity,
+                        image: AssetImage("assets/images/girls/img_16.jpeg"),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          gradient: LinearGradient(
+                              begin: FractionalOffset.topCenter,
+                              end: FractionalOffset.bottomCenter,
+                              colors: [
+                                Colors.black.withOpacity(0.0),
+                                Colors.black.withOpacity(0.9),
+                              ],
+                              stops: const [
+                                0.6,
+                                1.0
+                              ])),
+                      height: double.infinity,
+                      width: double.infinity,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _names[index],
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                ?.merge(const TextStyle(color: Colors.white)),
+                          ),
+                          const SizedBox(
+                            height: 4.0,
+                          ),
+                          const Text("info",
+                              style: TextStyle(color: Colors.white)),
+                          const SizedBox(
+                            height: 60,
+                          ),
+                        ],
+                      ),
+                    ),
+                    // SizedBox.expand(
+                    //   child: Material(
+                    //     color: Colors.transparent,
+                    //     child: InkWell(
+                    //       onTap: () =>
+                    //           Navigator.pushNamed(context, '/movie_detail'),
+                    //     ),
+                    //   ),
+                    // )
+                  ],
+                ),
+              );
+            },
+            onStackFinished: () {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text("Stack Finished"),
+                duration: Duration(milliseconds: 500),
+              ));
+            },
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                  onPressed: () {
-                    _matchEngine.currentItem?.nope();
-                  },
-                  child: const Text("Nope")),
-              ElevatedButton(
-                  onPressed: () {
-                    _matchEngine.currentItem?.superLike();
-                  },
-                  child: const Text("Superlike")),
-              ElevatedButton(
-                  onPressed: () {
-                    _matchEngine.currentItem?.like();
-                  },
-                  child: const Text("Like"))
-            ],
-          )
-        ]),
+        ),
       ),
     );
   }
 
   Widget getBottomSheet() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+    return Container(
+      height: 80,
+      padding: const EdgeInsets.only(left: 30, right: 30, bottom: 20),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: List.generate(itemIcons.length, (index) {
           return Ink(
             decoration:
@@ -147,6 +211,15 @@ class _ExplorePageState extends State<ExplorePage>
             child: InkWell(
               customBorder: const CircleBorder(),
               onTap: () {
+                switch (index) {
+                  case 0:
+                    _matchEngine.currentItem?.nope();
+                    break;
+                  case 1:
+                    _matchEngine.currentItem?.like();
+                    break;
+                  default:
+                }
                 print("pencet");
               },
               child: Center(
