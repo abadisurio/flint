@@ -64,25 +64,20 @@ class _ExplorePageState extends State<ExplorePage>
     });
     for (int i = 0; i < _names.length; i++) {
       _swipeItems.add(SwipeItem(
-          content: Content(text: _names[i], color: _colors[i]),
-          likeAction: () {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("Liked ${_names[i]}"),
-              duration: const Duration(milliseconds: 500),
-            ));
-          },
-          nopeAction: () {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("Nope ${_names[i]}"),
-              duration: const Duration(milliseconds: 500),
-            ));
-          },
-          superlikeAction: () {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("Superliked ${_names[i]}"),
-              duration: const Duration(milliseconds: 500),
-            ));
-          }));
+        content: Content(text: _names[i], color: _colors[i]),
+        // likeAction: () {
+        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        //     content: Text("Liked ${_names[i]}"),
+        //     duration: const Duration(milliseconds: 500),
+        //   ));
+        // },
+        // nopeAction: () {
+        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        //     content: Text("Nope ${_names[i]}"),
+        //     duration: const Duration(milliseconds: 500),
+        //   ));
+        // },
+      ));
     }
 
     _matchEngine = MatchEngine(swipeItems: _swipeItems);
@@ -220,7 +215,6 @@ class _ExplorePageState extends State<ExplorePage>
                     break;
                   default:
                 }
-                print("pencet");
               },
               child: Center(
                 child: SvgPicture.asset(
