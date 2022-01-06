@@ -31,7 +31,6 @@ class _RootPageState extends State<RootPage> {
           : "assets/images/account_icon.svg",
     ];
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: getAppBar(),
       body: getBody(),
       bottomNavigationBar: Padding(
@@ -42,7 +41,6 @@ class _RootPageState extends State<RootPage> {
           ),
           elevation: 5,
           shadowColor: Colors.black.withOpacity(0.5),
-          color: Colors.white,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
             child: Row(
@@ -78,7 +76,6 @@ class _RootPageState extends State<RootPage> {
 
   PreferredSizeWidget? getAppBar() {
     return AppBar(
-      backgroundColor: Colors.white,
       elevation: 0,
       title: Text("Flint", style: Theme.of(context).textTheme.headline4),
       centerTitle: true,

@@ -91,7 +91,6 @@ class _ExplorePageState extends State<ExplorePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: white,
       body: getBody(),
       bottomSheet: getBottomSheet(),
     );
@@ -99,7 +98,8 @@ class _ExplorePageState extends State<ExplorePage>
 
   Widget getBody() {
     return Transform.scale(
-      scale: 1.05,
+      scale: 1.06,
+      origin: const Offset(0, -120),
       child: SizedBox(
         child: Expanded(
           child: SwipeCards(
@@ -159,7 +159,7 @@ class _ExplorePageState extends State<ExplorePage>
                           const Text("info",
                               style: TextStyle(color: Colors.white)),
                           const SizedBox(
-                            height: 60,
+                            height: 70,
                           ),
                         ],
                       ),
