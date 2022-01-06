@@ -18,6 +18,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         primaryColor: const Color(0xff073FCF),
         appBarTheme: const AppBarTheme(backgroundColor: Color(0xff073FCF)),
+        bottomSheetTheme:
+            const BottomSheetThemeData(backgroundColor: Colors.transparent),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(const Color(0xff073FCF)),
