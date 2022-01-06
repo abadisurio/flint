@@ -80,10 +80,7 @@ class _RootPageState extends State<RootPage> {
     return AppBar(
       backgroundColor: Colors.white,
       elevation: 0,
-      title: const Text(
-        "Flint",
-        style: TextStyle(color: Colors.black),
-      ),
+      title: Text("Flint", style: Theme.of(context).textTheme.headline4),
       centerTitle: true,
     );
   }
