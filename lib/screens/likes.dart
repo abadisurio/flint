@@ -1,5 +1,4 @@
 import 'package:flint/data/likes_json.dart';
-import 'package:flint/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class LikesPage extends StatefulWidget {
@@ -17,7 +16,6 @@ class _LikesPageState extends State<LikesPage> {
   }
 
   Widget getBody() {
-    var size = MediaQuery.of(context).size;
     return GridView.count(
       childAspectRatio: 0.5625,
       crossAxisCount: 2,
@@ -73,7 +71,7 @@ class _LikesPageState extends State<LikesPage> {
                   child: Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: () => print("wkwk"),
+                        onTap: () {},
                       )),
                 )
               ],
