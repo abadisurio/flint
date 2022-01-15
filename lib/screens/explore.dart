@@ -13,46 +13,8 @@ class ExplorePage extends StatefulWidget {
 
 class _ExplorePageState extends State<ExplorePage>
     with TickerProviderStateMixin {
-  // late CardController controller;
-
   final List<SwipeItem> _swipeItems = <SwipeItem>[];
   late MatchEngine _matchEngine;
-  // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  final List<String> _names = [
-    "Red",
-    "Blue",
-    "Green",
-    "Yellow",
-    "Orange",
-    "Red",
-    "Blue",
-    "Green",
-    "Yellow",
-    "Orange",
-    "Red",
-    "Blue",
-    "Green",
-    "Yellow",
-    "Orange"
-  ];
-  final List<Color> _colors = [
-    Colors.red,
-    Colors.blue,
-    Colors.green,
-    Colors.yellow,
-    Colors.orange,
-    Colors.red,
-    Colors.blue,
-    Colors.green,
-    Colors.yellow,
-    Colors.orange,
-    Colors.red,
-    Colors.blue,
-    Colors.green,
-    Colors.yellow,
-    Colors.orange
-  ];
-
   List itemsTemp = [];
   int itemLength = 0;
   @override
@@ -62,9 +24,13 @@ class _ExplorePageState extends State<ExplorePage>
       itemsTemp = exploreJson;
       itemLength = exploreJson.length;
     });
-    for (int i = 0; i < _names.length; i++) {
+    for (int i = 0; i < itemLength; i++) {
       _swipeItems.add(SwipeItem(
-        content: Content(text: _names[i], color: _colors[i]),
+        content: Content(
+            movieId: i,
+            title: itemsTemp[i]['name'],
+            imageURI: itemsTemp[i]['img'],
+            genres: itemsTemp[i]['genre']),
       ));
     }
 
@@ -88,6 +54,10 @@ class _ExplorePageState extends State<ExplorePage>
           child: SwipeCards(
             matchEngine: _matchEngine,
             itemBuilder: (BuildContext context, int index) {
+              String title = _swipeItems[index].content.title;
+              String imageURI = _swipeItems[index].content.imageURI;
+              List<String> genres = _swipeItems[index].content.genres;
+              String genresConcat = genres.join(', ');
               return Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),
@@ -98,11 +68,11 @@ class _ExplorePageState extends State<ExplorePage>
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 child: Stack(
                   children: [
-                    const SizedBox(
+                    SizedBox(
                       width: double.infinity,
                       child: Image(
                         height: double.infinity,
-                        image: AssetImage("assets/images/girls/img_16.jpeg"),
+                        image: AssetImage(imageURI),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -130,7 +100,7 @@ class _ExplorePageState extends State<ExplorePage>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            _names[index],
+                            title,
                             style: Theme.of(context)
                                 .textTheme
                                 .headline5
@@ -139,8 +109,10 @@ class _ExplorePageState extends State<ExplorePage>
                           const SizedBox(
                             height: 4.0,
                           ),
-                          const Text("info",
-                              style: TextStyle(color: Colors.white)),
+                          // Text(genres,
+                          Text(genresConcat,
+                              // Text(genres.map(item => item),
+                              style: const TextStyle(color: Colors.white)),
                           const SizedBox(
                             height: 70,
                           ),
@@ -210,8 +182,14 @@ class _ExplorePageState extends State<ExplorePage>
 }
 
 class Content {
-  final String text;
-  final Color color;
+  final int movieId;
+  final String title;
+  final String imageURI;
+  final List<String> genres;
 
-  Content({this.text = "", this.color = Colors.white});
+  Content(
+      {this.movieId = 0,
+      this.title = "",
+      this.imageURI = "",
+      this.genres = const []});
 }
