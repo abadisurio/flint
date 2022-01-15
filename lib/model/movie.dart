@@ -1,18 +1,18 @@
 class Movie {
   late int id;
   late String title;
-  late String description;
+  late String genre;
   late int level;
 
-  Movie({this.id = 0, this.title = "", this.description = "", this.level = 0});
+  Movie({this.id = 0, this.title = "", this.genre = "", this.level = 0});
 
-  factory Movie.fromDatabaseJson(Map<String, dynamic> data) => Movie(
-      id: data['id'], description: data['description'], level: data['level']);
+  factory Movie.fromDatabaseJson(Map<String, dynamic> data) =>
+      Movie(id: data['id'], genre: data['genre'], level: data['level']);
 
   Map<String, dynamic> toDatabaseJson() => {
         "id": id,
         "title": title,
-        "description": description,
+        "genre": genre,
         "level": level,
       };
 }
