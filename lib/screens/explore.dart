@@ -65,18 +65,6 @@ class _ExplorePageState extends State<ExplorePage>
     for (int i = 0; i < _names.length; i++) {
       _swipeItems.add(SwipeItem(
         content: Content(text: _names[i], color: _colors[i]),
-        // likeAction: () {
-        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //     content: Text("Liked ${_names[i]}"),
-        //     duration: const Duration(milliseconds: 500),
-        //   ));
-        // },
-        // nopeAction: () {
-        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //     content: Text("Nope ${_names[i]}"),
-        //     duration: const Duration(milliseconds: 500),
-        //   ));
-        // },
       ));
     }
 
@@ -159,15 +147,6 @@ class _ExplorePageState extends State<ExplorePage>
                         ],
                       ),
                     ),
-                    // SizedBox.expand(
-                    //   child: Material(
-                    //     color: Colors.transparent,
-                    //     child: InkWell(
-                    //       onTap: () =>
-                    //           Navigator.pushNamed(context, '/movie_detail'),
-                    //     ),
-                    //   ),
-                    // )
                   ],
                 ),
               );
