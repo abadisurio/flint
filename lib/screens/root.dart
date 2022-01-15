@@ -1,4 +1,5 @@
 import 'package:flint/screens/explore.dart';
+import 'package:flint/screens/match.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 // import 'package:flint/pages/account_page.dart';
@@ -24,9 +25,6 @@ class _RootPageState extends State<RootPage> {
           ? "assets/images/likes_active_icon.svg"
           : "assets/images/likes_icon.svg",
       pageIndex == 2
-          ? "assets/images/chat_active_icon.svg"
-          : "assets/images/chat_icon.svg",
-      pageIndex == 3
           ? "assets/images/account_active_icon.svg"
           : "assets/images/account_icon.svg",
     ];
@@ -67,10 +65,7 @@ class _RootPageState extends State<RootPage> {
   Widget getBody() {
     return IndexedStack(
       index: pageIndex,
-      children: const [
-        ExplorePage(),
-        LikesPage(),
-      ],
+      children: const [ExplorePage(), MatchPage(), LikesPage()],
     );
   }
 

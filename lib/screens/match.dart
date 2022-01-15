@@ -1,13 +1,13 @@
 import 'package:flint/data/likes_json.dart';
 import 'package:flutter/material.dart';
 
-class LikesPage extends StatefulWidget {
-  const LikesPage({Key? key}) : super(key: key);
+class MatchPage extends StatefulWidget {
+  const MatchPage({Key? key}) : super(key: key);
   @override
-  _LikesPageState createState() => _LikesPageState();
+  _MatchPageState createState() => _MatchPageState();
 }
 
-class _LikesPageState extends State<LikesPage> {
+class _MatchPageState extends State<MatchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
