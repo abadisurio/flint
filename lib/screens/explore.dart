@@ -211,17 +211,6 @@ class _ExplorePageState extends State<ExplorePage>
       ),
     );
   }
-
-  void addItemToDB(int index) {
-    final newMovie = Movie(
-        id: _swipeItems[index].content.title,
-        title: _swipeItems[index].content.imageURI,
-        genre: _swipeItems[index].content.genres,
-        level: 1);
-    if (newMovie.title.isNotEmpty) {
-      movieBloc.addMovie(newMovie);
-    }
-  }
 }
 
 class Content {

@@ -28,7 +28,7 @@ class MovieBloc {
     getMovies();
   }
 
-  deleteTodoById(int id) async {
+  deleteMovieById(int id) async {
     _movieRepository.deleteMovieById(id);
     getMovies();
   }
