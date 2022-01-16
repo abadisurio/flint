@@ -42,7 +42,8 @@ class _ExplorePageState extends State<ExplorePage>
             final newMovie = Movie(
                 id: Random().nextInt(10000),
                 title: itemsTemp[i]['name'],
-                genre: itemsTemp[i]['name'],
+                posterURL: itemsTemp[i]['img'],
+                genre: itemsTemp[i]['genre'].join(' | '),
                 level: 1);
             dev.log("suka");
             if (newMovie.title.isNotEmpty) {
@@ -89,7 +90,7 @@ class _ExplorePageState extends State<ExplorePage>
               String title = _swipeItems[index].content.title;
               String imageURI = _swipeItems[index].content.imageURI;
               List<String> genres = _swipeItems[index].content.genres;
-              String genresConcat = genres.join(', ');
+              String genresConcat = genres.join(' | ');
               return Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),

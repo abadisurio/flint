@@ -1,4 +1,4 @@
-import 'dart:developer';
+// import 'dart:developer';
 
 import 'package:flint/bloc/movie_bloc.dart';
 import 'package:flint/data/likes_json.dart';
@@ -113,6 +113,7 @@ class LikesPage extends StatelessWidget {
                 Movie movie = data[index];
                 String title = movie.title;
                 String genre = movie.genre;
+                String posterURL = movie.posterURL;
                 return SizedBox(
                   height: 500,
                   child: Card(
@@ -129,7 +130,7 @@ class LikesPage extends StatelessWidget {
                           width: double.infinity,
                           child: Image(
                             height: double.infinity,
-                            image: AssetImage(likesJson[index]['img']),
+                            image: AssetImage(posterURL),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -159,6 +160,9 @@ class LikesPage extends StatelessWidget {
                               // Text("ini nama",
                               Text(title,
                                   style: const TextStyle(color: Colors.white)),
+                              Text(genre,
+                                  style: const TextStyle(
+                                      fontSize: 10, color: Colors.white)),
                             ],
                           ),
                         ),
