@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flint/bloc/movie_bloc.dart';
 import 'package:flint/data/likes_json.dart';
 import 'package:flint/model/movie.dart';
@@ -96,13 +98,15 @@ class LikesPage extends StatelessWidget {
   }
 
   Widget getMovieCardWidget(AsyncSnapshot<List<Movie>> snapshot) {
+    log("snpashottt" + snapshot.hasData.toString());
     if (snapshot.hasData) {
       final data = snapshot.data!;
       return data.isNotEmpty
           ? GridView.count(
               childAspectRatio: 0.5625,
               crossAxisCount: 2,
-              children: List.generate(likesJson.length, (index) {
+              children: List.generate(data.length, (index) {
+                log("snpashottt" + data[index].genre);
                 return SizedBox(
                   height: 500,
                   child: Card(

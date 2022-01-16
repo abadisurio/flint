@@ -1,3 +1,8 @@
+import 'dart:developer' as dev;
+import 'dart:math';
+
+import 'package:flint/bloc/movie_bloc.dart';
+import 'package:flint/model/movie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flint/data/explore_json.dart';
@@ -13,6 +18,8 @@ class ExplorePage extends StatefulWidget {
 
 class _ExplorePageState extends State<ExplorePage>
     with TickerProviderStateMixin {
+  final MovieBloc movieBloc = MovieBloc();
+
   final List<SwipeItem> _swipeItems = <SwipeItem>[];
   late MatchEngine _matchEngine;
   List itemsTemp = [];
@@ -26,12 +33,37 @@ class _ExplorePageState extends State<ExplorePage>
     });
     for (int i = 0; i < itemLength; i++) {
       _swipeItems.add(SwipeItem(
-        content: Content(
-            movieId: i,
-            title: itemsTemp[i]['name'],
-            imageURI: itemsTemp[i]['img'],
-            genres: itemsTemp[i]['genre']),
-      ));
+          content: Content(
+              movieId: i,
+              title: itemsTemp[i]['name'],
+              imageURI: itemsTemp[i]['img'],
+              genres: itemsTemp[i]['genre']),
+          likeAction: () {
+            final newMovie = Movie(
+                id: Random().nextInt(10000),
+                title: itemsTemp[i]['name'],
+                genre: itemsTemp[i]['name'],
+                level: 1);
+            dev.log("suka");
+            if (newMovie.title.isNotEmpty) {
+              dev.log("suka2");
+              movieBloc.addMovie(newMovie);
+            }
+            // log("suka");
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text("Liked"),
+              duration: Duration(milliseconds: 500),
+            ));
+          },
+          // likeAction: () {
+          //   log("Like");
+          // },
+          nopeAction: () {
+            dev.log("Nope");
+          },
+          superlikeAction: () {
+            dev.log("Superlike");
+          }));
     }
 
     _matchEngine = MatchEngine(swipeItems: _swipeItems);
@@ -178,6 +210,17 @@ class _ExplorePageState extends State<ExplorePage>
         }),
       ),
     );
+  }
+
+  void addItemToDB(int index) {
+    final newMovie = Movie(
+        id: _swipeItems[index].content.title,
+        title: _swipeItems[index].content.imageURI,
+        genre: _swipeItems[index].content.genres,
+        level: 1);
+    if (newMovie.title.isNotEmpty) {
+      movieBloc.addMovie(newMovie);
+    }
   }
 }
 

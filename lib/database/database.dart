@@ -35,7 +35,7 @@ class DatabaseProvider {
     await database.execute("CREATE TABLE $movieTABLE("
         "id INTEGER PRIMARY KEY, "
         "title TEXT, "
-        "description TEXT, "
+        "genre TEXT, "
         "level INTEGER"
         ") ");
   }
