@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flint/connectivity/connection.dart';
 import 'package:flint/screens/root.dart';
 import 'package:flutter/material.dart';
 
@@ -5,12 +9,42 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Map _source = {ConnectivityResult.none: false};
+  final Connection _connectivity = Connection.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    _connectivity.initialise();
+    _connectivity.myStream.listen((source) {
+      setState(() => _source = source);
+    });
+  }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    String string;
+    log("source " + _source.keys.toList()[0].toString());
+    switch (_source.keys.toList()[0]) {
+      case ConnectivityResult.mobile:
+        string = 'Mobile: Online';
+        break;
+      case ConnectivityResult.wifi:
+        string = 'WiFi: Online';
+        break;
+      case ConnectivityResult.none:
+      default:
+        string = 'Offline';
+    }
     return MaterialApp(
       title: 'Flint',
       debugShowCheckedModeBanner: false,
@@ -121,7 +155,15 @@ class MyApp extends StatelessWidget {
       //           builder: (_) => const QuickAction(), settings: settings);
       //   }
       // },
-      home: const RootPage(),
+      home: Stack(
+        children: [const RootPage(), Text(string)],
+      ),
     );
+  }
+
+  @override
+  void dispose() {
+    _connectivity.disposeStream();
+    super.dispose();
   }
 }
