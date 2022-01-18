@@ -142,20 +142,36 @@ class Index extends StatefulWidget {
 }
 
 class _IndexState extends State<Index> {
-  Map _source = {ConnectivityResult.none: false};
-
   final Connection _connectivity = Connection.instance;
+
+  bool _internetAlertShown = false;
 
   @override
   void initState() {
     super.initState();
     _connectivity.initialise();
     _connectivity.myStream.listen((source) {
-      setState(() => _source = source);
+      ConnectivityResult result = source.keys.toList()[0];
+      // log("result: " + result.toString());
+      if (result == ConnectivityResult.none) {
+        Future.delayed(Duration.zero, () async {
+          internetAlert(context);
+          setState(() {
+            _internetAlertShown = true;
+          });
+        });
+      } else {
+        if (_internetAlertShown) {
+          Navigator.pop(context, result);
+          setState(() {
+            _internetAlertShown = false;
+          });
+        }
+      }
     });
   }
 
-  void testAlert(BuildContext context) {
+  void internetAlert(BuildContext context) {
     var alert = AlertDialog(
       title: const Text('Aplikasi tidak terhubung dengan internet'),
       content: const Text('Tutup aplikasi atau coba lagi'),
@@ -181,25 +197,6 @@ class _IndexState extends State<Index> {
 
   @override
   Widget build(BuildContext context) {
-    // String string;
-    switch (_source.keys.toList()[0]) {
-      case ConnectivityResult.mobile:
-        // string = 'Mobile: Online';
-        break;
-      case ConnectivityResult.wifi:
-        // string = 'WiFi: Online';
-        break;
-      case ConnectivityResult.none:
-      default:
-        {
-          // string = 'Offline';
-          Future.delayed(Duration.zero, () async {
-            // Your Function
-            testAlert(context);
-          });
-        }
-    }
-
     return const RootPage();
   }
 
