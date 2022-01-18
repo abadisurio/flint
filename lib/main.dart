@@ -1,9 +1,8 @@
-import 'dart:developer';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flint/connectivity/connection.dart';
 import 'package:flint/screens/root.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,34 +16,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Map _source = {ConnectivityResult.none: false};
-  final Connection _connectivity = Connection.instance;
-
-  @override
-  void initState() {
-    super.initState();
-    _connectivity.initialise();
-    _connectivity.myStream.listen((source) {
-      setState(() => _source = source);
-    });
-  }
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    String string;
-    log("source " + _source.keys.toList()[0].toString());
-    switch (_source.keys.toList()[0]) {
-      case ConnectivityResult.mobile:
-        string = 'Mobile: Online';
-        break;
-      case ConnectivityResult.wifi:
-        string = 'WiFi: Online';
-        break;
-      case ConnectivityResult.none:
-      default:
-        string = 'Offline';
-    }
     return MaterialApp(
       title: 'Flint',
       debugShowCheckedModeBanner: false,
@@ -155,10 +129,78 @@ class _MyAppState extends State<MyApp> {
       //           builder: (_) => const QuickAction(), settings: settings);
       //   }
       // },
-      home: Stack(
-        children: [const RootPage(), Text(string)],
-      ),
+      home: const Index(),
     );
+  }
+}
+
+class Index extends StatefulWidget {
+  const Index({Key? key}) : super(key: key);
+
+  @override
+  State<Index> createState() => _IndexState();
+}
+
+class _IndexState extends State<Index> {
+  Map _source = {ConnectivityResult.none: false};
+
+  final Connection _connectivity = Connection.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    _connectivity.initialise();
+    _connectivity.myStream.listen((source) {
+      setState(() => _source = source);
+    });
+  }
+
+  void testAlert(BuildContext context) {
+    var alert = AlertDialog(
+      title: const Text('Aplikasi tidak terhubung dengan internet'),
+      content: const Text('Tutup aplikasi atau coba lagi'),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () =>
+              SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
+          child: const Text('Tutup'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, 'OK'),
+          child: const Text('Coba Lagi'),
+        ),
+      ],
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // String string;
+    switch (_source.keys.toList()[0]) {
+      case ConnectivityResult.mobile:
+        // string = 'Mobile: Online';
+        break;
+      case ConnectivityResult.wifi:
+        // string = 'WiFi: Online';
+        break;
+      case ConnectivityResult.none:
+      default:
+        {
+          // string = 'Offline';
+          Future.delayed(Duration.zero, () async {
+            // Your Function
+            testAlert(context);
+          });
+        }
+    }
+
+    return const RootPage();
   }
 
   @override
