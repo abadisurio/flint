@@ -24,9 +24,19 @@ class _ExplorePageState extends State<ExplorePage>
   late MatchEngine _matchEngine;
   List itemsTemp = [];
   int itemLength = 0;
+
+  // void onStart() async {
+  //   late Future<int> moviesQty;
+  //   await movieBloc.movies.listen((itemLength) => moviesQty = itemLength);
+  //   dev.log("moviesQty " + await moviesQty.toString());
+  // }
+
   @override
   void initState() {
     super.initState();
+
+    // onStart();
+
     setState(() {
       itemsTemp = exploreJson;
       itemLength = exploreJson.length;
@@ -40,7 +50,7 @@ class _ExplorePageState extends State<ExplorePage>
               genres: itemsTemp[i]['genre']),
           likeAction: () {
             final newMovie = Movie(
-                id: Random().nextInt(10000),
+                id: 250000 + Random().nextInt(300000 - 250000),
                 title: itemsTemp[i]['name'],
                 posterURL: itemsTemp[i]['img'],
                 genre: itemsTemp[i]['genre'].join(' | '),
