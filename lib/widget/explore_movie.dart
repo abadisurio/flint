@@ -1,5 +1,6 @@
 import 'dart:developer' as dev;
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flint/bloc/movie_bloc.dart';
 import 'package:flint/data/icons.dart';
 import 'package:flint/model/movie_with_detail.dart';
@@ -25,12 +26,6 @@ class _ExploreMovieState extends State<ExploreMovie>
   List itemsTemp = [];
   int itemLength = 0;
 
-  // void onStart() async {
-  //   late Future<int> moviesQty;
-  //   await movieBloc.movies.listen((itemLength) => moviesQty = itemLength);
-  //   dev.log("moviesQty " + await moviesQty.toString());
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -38,15 +33,10 @@ class _ExploreMovieState extends State<ExploreMovie>
     final movieWithDetail = widget.movieWithDetail;
     final data = movieWithDetail.data;
     final movies = data.movies;
-    // onStart();
 
     setState(() {
-      // _swipeItems = widget.swipeItems;
-
       itemsTemp = movies;
       itemLength = movies.length;
-      // itemsTemp = exploreJson;
-      // itemLength = exploreJson.length;
     });
     dev.log("movies " + movies.toString());
     for (int i = 0; i < itemLength; i++) {
@@ -60,9 +50,6 @@ class _ExploreMovieState extends State<ExploreMovie>
               duration: Duration(milliseconds: 500),
             ));
           },
-          // likeAction: () {
-          //   log("Like");
-          // },
           nopeAction: () {
             dev.log("Nope");
           },
@@ -108,9 +95,9 @@ class _ExploreMovieState extends State<ExploreMovie>
                 children: [
                   SizedBox(
                     width: double.infinity,
-                    child: Image(
+                    child: CachedNetworkImage(
                       height: double.infinity,
-                      image: NetworkImage(imageURI),
+                      imageUrl: imageURI,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -216,17 +203,4 @@ class _ExploreMovieState extends State<ExploreMovie>
       ),
     );
   }
-}
-
-class Content {
-  final int movieId;
-  final String title;
-  final String imageURI;
-  final List<String> genres;
-
-  Content(
-      {this.movieId = 0,
-      this.title = "",
-      this.imageURI = "",
-      this.genres = const []});
 }

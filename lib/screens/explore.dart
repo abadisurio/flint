@@ -20,15 +20,6 @@ class _ExplorePageState extends State<ExplorePage>
 
   MovieWithDetail? filteredMovies;
 
-  List itemsTemp = [];
-  int itemLength = 0;
-
-  // void onStart() async {
-  //   late Future<int> moviesQty;
-  //   await movieBloc.movies.listen((itemLength) => moviesQty = itemLength);
-  //   dev.log("moviesQty " + await moviesQty.toString());
-  // }
-
   Future<MovieWithDetail> getFilteredMovie() async {
     // void getFilteredMovie() async {
     String token =
@@ -50,7 +41,6 @@ class _ExplorePageState extends State<ExplorePage>
     } finally {
       client.close();
     }
-    // return
   }
 
   void requestFilteredMovies() async {
