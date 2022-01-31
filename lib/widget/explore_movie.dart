@@ -2,34 +2,25 @@ import 'dart:developer' as dev;
 import 'dart:math';
 
 import 'package:flint/bloc/movie_bloc.dart';
+import 'package:flint/data/explore_json.dart';
 import 'package:flint/model/movie.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:flint/data/explore_json.dart';
-import 'package:flint/data/icons.dart';
-import 'package:flint/theme/colors.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
-class ExplorePage extends StatefulWidget {
-  const ExplorePage({Key? key}) : super(key: key);
+class ExploreMovie extends StatefulWidget {
+  const ExploreMovie({Key? key}) : super(key: key);
+
   @override
-  _ExplorePageState createState() => _ExplorePageState();
+  _ExploreMovieState createState() => _ExploreMovieState();
 }
 
-class _ExplorePageState extends State<ExplorePage>
+class _ExploreMovieState extends State<ExploreMovie>
     with TickerProviderStateMixin {
   final MovieBloc movieBloc = MovieBloc();
-
   final List<SwipeItem> _swipeItems = <SwipeItem>[];
   late MatchEngine _matchEngine;
   List itemsTemp = [];
   int itemLength = 0;
-
-  // void onStart() async {
-  //   late Future<int> moviesQty;
-  //   await movieBloc.movies.listen((itemLength) => moviesQty = itemLength);
-  //   dev.log("moviesQty " + await moviesQty.toString());
-  // }
 
   @override
   void initState() {
@@ -82,13 +73,6 @@ class _ExplorePageState extends State<ExplorePage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: getBody(),
-      bottomSheet: getBottomSheet(),
-    );
-  }
-
-  Widget getBody() {
     return Transform.scale(
       scale: 1.06,
       origin: const Offset(0, -120),
@@ -172,51 +156,6 @@ class _ExplorePageState extends State<ExplorePage>
             ));
           },
         ),
-      ),
-    );
-  }
-
-  Widget getBottomSheet() {
-    return Container(
-      height: 80,
-      padding: const EdgeInsets.only(left: 30, right: 30, bottom: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: List.generate(itemIcons.length, (index) {
-          return Ink(
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: white, boxShadow: [
-              BoxShadow(
-                color: grey.withOpacity(0.1),
-                spreadRadius: 5,
-                blurRadius: 10,
-                // changes position of shadow
-              ),
-            ]),
-            width: itemIcons[index]['size'],
-            height: itemIcons[index]['size'],
-            child: InkWell(
-              customBorder: const CircleBorder(),
-              onTap: () {
-                switch (index) {
-                  case 0:
-                    _matchEngine.currentItem?.nope();
-                    break;
-                  case 1:
-                    _matchEngine.currentItem?.like();
-                    break;
-                  default:
-                }
-              },
-              child: Center(
-                child: SvgPicture.asset(
-                  itemIcons[index]['icon'],
-                  width: itemIcons[index]['icon_size'],
-                ),
-              ),
-            ),
-          );
-        }),
       ),
     );
   }
