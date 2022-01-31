@@ -23,7 +23,7 @@ class _ExplorePageState extends State<ExplorePage>
   Future<MovieWithDetail> getFilteredMovie() async {
     // void getFilteredMovie() async {
     String token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjFmMDFkYTVkNDkzNzMwMjVmNTA0MDQ1IiwiZW1haWwiOiJhQGIuYyIsImlhdCI6MTY0MzYxODgwNCwiZXhwIjoxNjQzNjI2MDA0fQ.a-ZwUlp8-eMaqqZMJY0XQ0rA7Vv-IufV5RQiWlBsVkQ';
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjFmMDFkYTVkNDkzNzMwMjVmNTA0MDQ1IiwiZW1haWwiOiJhQGIuYyIsImlhdCI6MTY0MzYyNjMyNiwiZXhwIjoxNjQzNjMzNTI2fQ.LW97b-9obT0t6oCGmd5B75yIMeTBFeYKAs11Ry0eyKU';
     String url = 'http://10.0.2.2:3000/api/getFilteredMoviesWithDetail';
     Map<String, String> requestHeaders = {
       'Content-type': 'application/json',

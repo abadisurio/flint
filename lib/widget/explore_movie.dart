@@ -82,7 +82,7 @@ class _ExploreMovieState extends State<ExploreMovie>
             final MovieDetail movieDetail = movie.movieDetail;
             String title = movieDetail.title;
             String imageURI = movieDetail.posterPath;
-            String genres = movie.genres;
+            String genres = movie.genres.toString().split("|").join(" | ");
             return Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
