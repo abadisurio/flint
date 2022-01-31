@@ -53,7 +53,7 @@ class Movies {
   late final MovieDetail movieDetail;
 
   Movies.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['_id'];
     movieId = json['movieId'];
     title = json['title'];
     genres = json['genres'];
@@ -86,7 +86,7 @@ class Links {
   late final String tmdbId;
 
   Links.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['_id'];
     movieId = json['movieId'];
     imdbId = json['imdbId'];
     tmdbId = json['tmdbId'];

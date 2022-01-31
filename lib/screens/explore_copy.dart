@@ -1,22 +1,22 @@
 import 'dart:developer' as dev;
+import 'dart:math';
 
 import 'package:flint/bloc/movie_bloc.dart';
-import 'package:flint/data/icons.dart';
-import 'package:flint/model/movie_with_detail.dart';
-import 'package:flint/theme/colors.dart';
+import 'package:flint/model/movie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flint/data/explore_json.dart';
+import 'package:flint/data/icons.dart';
+import 'package:flint/theme/colors.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
-class ExploreMovie extends StatefulWidget {
-  final MovieWithDetail movieWithDetail;
-  const ExploreMovie({Key? key, required this.movieWithDetail})
-      : super(key: key);
+class ExplorePage extends StatefulWidget {
+  const ExplorePage({Key? key}) : super(key: key);
   @override
-  _ExploreMovieState createState() => _ExploreMovieState();
+  _ExplorePageState createState() => _ExplorePageState();
 }
 
-class _ExploreMovieState extends State<ExploreMovie>
+class _ExplorePageState extends State<ExplorePage>
     with TickerProviderStateMixin {
   final MovieBloc movieBloc = MovieBloc();
 
@@ -35,26 +35,32 @@ class _ExploreMovieState extends State<ExploreMovie>
   void initState() {
     super.initState();
 
-    final movieWithDetail = widget.movieWithDetail;
-    final data = movieWithDetail.data;
-    final movies = data.movies;
     // onStart();
 
     setState(() {
-      // _swipeItems = widget.swipeItems;
-
-      itemsTemp = movies;
-      itemLength = movies.length;
-      // itemsTemp = exploreJson;
-      // itemLength = exploreJson.length;
+      itemsTemp = exploreJson;
+      itemLength = exploreJson.length;
     });
-    dev.log("movies " + movies.toString());
     for (int i = 0; i < itemLength; i++) {
-      dev.log(movies[i].movieDetail.title.toString());
       _swipeItems.add(SwipeItem(
-          content: movies[i],
+          content: Content(
+              movieId: i,
+              title: itemsTemp[i]['name'],
+              imageURI: itemsTemp[i]['img'],
+              genres: itemsTemp[i]['genre']),
           likeAction: () {
+            final newMovie = Movie(
+                id: 250000 + Random().nextInt(300000 - 250000),
+                title: itemsTemp[i]['name'],
+                posterURL: itemsTemp[i]['img'],
+                genre: itemsTemp[i]['genre'].join(' | '),
+                level: 1);
             dev.log("suka");
+            if (newMovie.title.isNotEmpty) {
+              dev.log("suka2");
+              movieBloc.addMovie(newMovie);
+            }
+            // log("suka");
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text("Liked"),
               duration: Duration(milliseconds: 500),
@@ -76,7 +82,6 @@ class _ExploreMovieState extends State<ExploreMovie>
 
   @override
   Widget build(BuildContext context) {
-    dev.log("movieWithDetail " + widget.movieWithDetail.toString());
     return Scaffold(
       body: getBody(),
       bottomSheet: getBottomSheet(),
@@ -91,11 +96,10 @@ class _ExploreMovieState extends State<ExploreMovie>
         child: SwipeCards(
           matchEngine: _matchEngine,
           itemBuilder: (BuildContext context, int index) {
-            final movie = _swipeItems[index].content;
-            final MovieDetail movieDetail = movie.movieDetail;
-            String title = movieDetail.title;
-            String imageURI = movieDetail.posterPath;
-            String genres = movie.genres;
+            String title = _swipeItems[index].content.title;
+            String imageURI = _swipeItems[index].content.imageURI;
+            List<String> genres = _swipeItems[index].content.genres;
+            String genresConcat = genres.join(' | ');
             return Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
@@ -110,7 +114,7 @@ class _ExploreMovieState extends State<ExploreMovie>
                     width: double.infinity,
                     child: Image(
                       height: double.infinity,
-                      image: NetworkImage(imageURI),
+                      image: AssetImage(imageURI),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -148,7 +152,7 @@ class _ExploreMovieState extends State<ExploreMovie>
                           height: 4.0,
                         ),
                         // Text(genres,
-                        Text(genres,
+                        Text(genresConcat,
                             // Text(genres.map(item => item),
                             style: const TextStyle(color: Colors.white)),
                         const SizedBox(
