@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flint/connectivity/connection.dart';
-import 'package:flint/screens/root.dart';
+import 'package:flint/screens/register.dart';
+// import 'package:flint/screens/root.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -197,7 +198,7 @@ class _IndexState extends State<Index> {
 
   @override
   Widget build(BuildContext context) {
-    return const RootPage();
+    return const RegisterPage();
   }
 
   @override
