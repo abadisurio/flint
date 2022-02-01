@@ -1,6 +1,9 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flint/connectivity/connection.dart';
 import 'package:flint/screens/register.dart';
+import 'package:flint/screens/root.dart';
+import 'package:flint/screens/signin.dart';
+import 'package:flutter/cupertino.dart';
 // import 'package:flint/screens/root.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -117,19 +120,19 @@ class _MyAppState extends State<MyApp> {
             //     color: Color(0xff868686)),
             button: TextStyle(fontWeight: FontWeight.w700)),
       ),
-      // onGenerateRoute: (RouteSettings settings) {
-      //   switch (settings.name) {
-      //     case '/':
-      //       return CupertinoPageRoute(
-      //           builder: (_) => const BottomNavigation(), settings: settings);
-      //     case 'voting':
-      //       return CupertinoPageRoute(
-      //           builder: (_) => const Voting(), settings: settings);
-      //     case 'quick_action':
-      //       return CupertinoPageRoute(
-      //           builder: (_) => const QuickAction(), settings: settings);
-      //   }
-      // },
+      onGenerateRoute: (RouteSettings settings) {
+        switch (settings.name) {
+          case '/':
+            return CupertinoPageRoute(
+                builder: (_) => const RootPage(), settings: settings);
+          case '/signin':
+            return CupertinoPageRoute(
+                builder: (_) => const SignInPage(), settings: settings);
+          case '/register':
+            return CupertinoPageRoute(
+                builder: (_) => const RegisterPage(), settings: settings);
+        }
+      },
       home: const Index(),
     );
   }

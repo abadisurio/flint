@@ -16,8 +16,6 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController usernameController = TextEditingController();
 
-  final TextEditingController emailController = TextEditingController();
-
   final TextEditingController passwordController = TextEditingController();
 
   void registerUser() async {
@@ -25,7 +23,6 @@ class _RegisterPageState extends State<RegisterPage> {
     String url = 'http://10.0.2.2:3000/api/register';
     Map<String, String> body = {
       'username': usernameController.text,
-      'email': emailController.text,
       'password': passwordController.text,
     };
     var client = http.Client();
@@ -36,6 +33,7 @@ class _RegisterPageState extends State<RegisterPage> {
       dev.log(bodyResponse["status"].toString());
       if (bodyResponse["data"]) {
         dev.log(bodyResponse["status"].toString());
+        Navigator.popAndPushNamed(context, '/signin');
         // obtain shared preferences
         // final prefs = await SharedPreferences.getInstance();
         // // set value
@@ -74,16 +72,6 @@ class _RegisterPageState extends State<RegisterPage> {
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Username',
-              ),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(10),
-            child: TextField(
-              controller: emailController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Email',
               ),
             ),
           ),
