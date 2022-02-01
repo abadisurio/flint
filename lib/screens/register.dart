@@ -14,9 +14,9 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final TextEditingController nameController = TextEditingController();
-
   final TextEditingController usernameController = TextEditingController();
+
+  final TextEditingController emailController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
 
@@ -24,9 +24,9 @@ class _RegisterPageState extends State<RegisterPage> {
     // void getFilteredMovie() async {
     String url = 'http://10.0.2.2:3000/api/register';
     Map<String, String> body = {
-      'username': 'abadisurio2x',
-      'password': '123qwe',
-      'email': 'a@b.cx'
+      'username': usernameController.text,
+      'email': emailController.text,
+      'password': passwordController.text,
     };
     var client = http.Client();
     dev.log("test");
@@ -70,7 +70,7 @@ class _RegisterPageState extends State<RegisterPage> {
           Container(
             padding: const EdgeInsets.all(10),
             child: TextField(
-              controller: nameController,
+              controller: usernameController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Username',
@@ -80,7 +80,7 @@ class _RegisterPageState extends State<RegisterPage> {
           Container(
             padding: const EdgeInsets.all(10),
             child: TextField(
-              controller: usernameController,
+              controller: emailController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Email',
@@ -104,7 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
               child: ElevatedButton(
                 child: const Text('Register'),
                 onPressed: () {
-                  log(nameController.text);
+                  log(usernameController.text);
                   log(passwordController.text);
                   registerUser();
                 },
