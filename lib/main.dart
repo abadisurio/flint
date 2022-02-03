@@ -80,7 +80,9 @@ class _MyAppState extends State<MyApp> {
         fontFamily: 'Poppins',
         primarySwatch: Colors.blue,
         primaryColor: const Color(0xff073FCF),
-        appBarTheme: const AppBarTheme(backgroundColor: Color(0xffffffff)),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xffffffff),
+        ),
         bottomSheetTheme:
             const BottomSheetThemeData(backgroundColor: Colors.transparent),
         elevatedButtonTheme: ElevatedButtonThemeData(

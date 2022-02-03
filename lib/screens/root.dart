@@ -1,11 +1,12 @@
 import 'package:flint/screens/explore.dart';
 import 'package:flint/screens/match.dart';
+import 'package:flint/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 // import 'package:flint/pages/account_page.dart';
 // import 'package:flint/pages/chat_page.dart';
 // import 'package:flint/pages/explore_page.dart';
-import 'package:flint/screens/likes.dart';
+// import 'package:flint/screens/likes.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({Key? key}) : super(key: key);
@@ -65,7 +66,7 @@ class _RootPageState extends State<RootPage> {
   Widget getBody() {
     return IndexedStack(
       index: pageIndex,
-      children: [const ExplorePage(), const MatchPage(), LikesPage()],
+      children: const [ExplorePage(), MatchPage(), ProfilePage()],
     );
   }
 
