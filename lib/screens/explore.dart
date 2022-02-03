@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flint/model/movie_with_detail.dart';
 import 'package:flint/widget/explore_movie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:developer' as dev;
 import 'package:http/http.dart' as http;
 
@@ -24,7 +25,8 @@ class _ExplorePageState extends State<ExplorePage>
   Future<MovieWithDetail> getFilteredMovie() async {
     // void getFilteredMovie() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString('authToken') ?? "";
+    String? token = prefs.getString('authToken');
+    dev.log("ini token lagi " + token.toString());
 
     // String token =
     //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjFmOTNlMjdlODg1NjAxMWIxNWZmMmMwIiwidXNlcm5hbWUiOiJhYmFkaXN1cmlvMyIsImlhdCI6MTY0Mzg1NTAwMiwiZXhwIjoxNjQ0NDU5ODAyfQ.Xw4If_vmGHn79SniiVHmOuo7FdY2ENJT1l3v5oEaHZM';
@@ -32,9 +34,10 @@ class _ExplorePageState extends State<ExplorePage>
     Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': token
+      'Authorization': token ?? "hehe"
     };
     var client = http.Client();
+    dev.log(requestHeaders.toString());
     dev.log("test");
     try {
       final response =
@@ -44,7 +47,10 @@ class _ExplorePageState extends State<ExplorePage>
       return MovieWithDetail.fromJson(jsonDecode(response.body));
     } catch (err) {
       dev.log(err.toString());
-      return MovieWithDetail.fromJson({});
+      return MovieWithDetail.fromJson({
+        "status": "success",
+        "data": {"movies": []}
+      });
     } finally {
       client.close();
     }
@@ -73,8 +79,23 @@ class _ExplorePageState extends State<ExplorePage>
           if (hasData) {
             final data = snapshot.data!;
             dev.log("snapshot " + snapshot.hasData.toString());
-            dev.log("data " + data.toString());
-            return ExploreMovie(movieWithDetail: data);
+            dev.log("data " + data.data.movies.toString());
+            if (data.data.movies.isEmpty) {
+              return AlertDialog(
+                title: const Text('Something is happening'),
+                content: const Text(
+                    'Cannot procceed your request. Please try again later.'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => SystemChannels.platform
+                        .invokeMethod('SystemNavigator.pop'),
+                    child: const Text('Tutup'),
+                  ),
+                ],
+              );
+            } else {
+              return ExploreMovie(movieWithDetail: data);
+            }
           }
           return const CircularProgressIndicator();
         });

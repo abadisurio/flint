@@ -183,7 +183,7 @@ class _IndexState extends State<Index> {
 
   void getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString('authToken') ?? "";
+    String? token = prefs.getString('authToken');
     setState(() {
       _token = token;
     });
@@ -215,8 +215,8 @@ class _IndexState extends State<Index> {
 
   @override
   Widget build(BuildContext context) {
-    Widget main =
-        _token == null ? const CircularProgressIndicator() : const RootPage();
+    // log("ini token " + _token.toString());
+    Widget main = _token == null ? const SignInPage() : const RootPage();
     return main;
   }
 
