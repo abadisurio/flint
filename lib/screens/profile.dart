@@ -68,7 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       doSignOut();
                                       // proceed = true;
                                     },
-                                    child: const Text('Tutup'),
+                                    child: const Text('Sign Out'),
                                   ),
                                   TextButton(
                                     onPressed: () =>
