@@ -122,6 +122,7 @@ class _SignInPageState extends State<SignInPage> {
                 ),
                 onPressed: () {
                   //signup screen
+                  Navigator.popAndPushNamed(context, '/register');
                 },
               )
             ],
