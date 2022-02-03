@@ -19,6 +19,10 @@ class _SignInPageState extends State<SignInPage> {
 
   void registerUser() async {
     // void getFilteredMovie() async {
+    showDialog(
+        context: context,
+        builder: (context) => const AlertDialog(
+            title: Center(child: CircularProgressIndicator.adaptive())));
     String url = 'http://10.0.2.2:3000/api/signin';
     Map<String, String> body = {
       'username': usernameController.text,
@@ -39,6 +43,7 @@ class _SignInPageState extends State<SignInPage> {
         final token = bodyResponse["data"]["token"];
         dev.log("wkwk " + token);
         prefs.setString('authToken', token);
+        Navigator.of(context).popUntil((route) => route.isFirst);
         Navigator.popAndPushNamed(context, '/root');
       }
 
@@ -53,7 +58,10 @@ class _SignInPageState extends State<SignInPage> {
 
       // return MovieWithDetail.fromJson(jsonDecode(response.body));
     } catch (err) {
-      // log(err.toString());
+      dev.log(err.toString());
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Cannot connect to server\n" + err.toString()),
+      ));
     } finally {
       client.close();
     }
