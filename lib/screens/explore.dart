@@ -7,6 +7,7 @@ import 'dart:developer' as dev;
 import 'package:http/http.dart' as http;
 
 import 'package:flint/bloc/movie_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({Key? key}) : super(key: key);
@@ -22,8 +23,11 @@ class _ExplorePageState extends State<ExplorePage>
 
   Future<MovieWithDetail> getFilteredMovie() async {
     // void getFilteredMovie() async {
-    String token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjFmMDFkYTVkNDkzNzMwMjVmNTA0MDQ1IiwiZW1haWwiOiJhQGIuYyIsImlhdCI6MTY0MzYyNjMyNiwiZXhwIjoxNjQzNjMzNTI2fQ.LW97b-9obT0t6oCGmd5B75yIMeTBFeYKAs11Ry0eyKU';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('authToken') ?? "";
+
+    // String token =
+    //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjFmOTNlMjdlODg1NjAxMWIxNWZmMmMwIiwidXNlcm5hbWUiOiJhYmFkaXN1cmlvMyIsImlhdCI6MTY0Mzg1NTAwMiwiZXhwIjoxNjQ0NDU5ODAyfQ.Xw4If_vmGHn79SniiVHmOuo7FdY2ENJT1l3v5oEaHZM';
     String url = 'http://10.0.2.2:3000/api/getFilteredMoviesWithDetail';
     Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
@@ -38,6 +42,9 @@ class _ExplorePageState extends State<ExplorePage>
       dev.log(response.body);
 
       return MovieWithDetail.fromJson(jsonDecode(response.body));
+    } catch (err) {
+      dev.log(err.toString());
+      return MovieWithDetail.fromJson({});
     } finally {
       client.close();
     }

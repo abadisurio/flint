@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 // import 'package:flint/screens/root.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -131,6 +132,9 @@ class _MyAppState extends State<MyApp> {
           case '/register':
             return CupertinoPageRoute(
                 builder: (_) => const RegisterPage(), settings: settings);
+          case '/root':
+            return CupertinoPageRoute(
+                builder: (_) => const RootPage(), settings: settings);
         }
       },
       home: const Index(),
@@ -148,6 +152,7 @@ class Index extends StatefulWidget {
 class _IndexState extends State<Index> {
   final Connection _connectivity = Connection.instance;
 
+  String? _token;
   bool _internetAlertShown = false;
 
   @override
@@ -165,6 +170,7 @@ class _IndexState extends State<Index> {
           });
         });
       } else {
+        getToken();
         if (_internetAlertShown) {
           Navigator.pop(context, result);
           setState(() {
@@ -172,6 +178,14 @@ class _IndexState extends State<Index> {
           });
         }
       }
+    });
+  }
+
+  void getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('authToken') ?? "";
+    setState(() {
+      _token = token;
     });
   }
 
@@ -201,7 +215,9 @@ class _IndexState extends State<Index> {
 
   @override
   Widget build(BuildContext context) {
-    return const RegisterPage();
+    Widget main =
+        _token == null ? const CircularProgressIndicator() : const RootPage();
+    return main;
   }
 
   @override
