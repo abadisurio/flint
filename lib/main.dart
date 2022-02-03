@@ -157,12 +157,15 @@ class Index extends StatefulWidget {
 class _IndexState extends State<Index> {
   final Connection _connectivity = Connection.instance;
 
+  Widget? main2;
   String? _token;
   bool _internetAlertShown = false;
 
   @override
   void initState() {
     super.initState();
+
+    getToken();
     _connectivity.initialise();
     _connectivity.myStream.listen((source) {
       ConnectivityResult result = source.keys.toList()[0];
@@ -175,11 +178,34 @@ class _IndexState extends State<Index> {
           });
         });
       } else {
-        getToken();
         if (_internetAlertShown) {
           Navigator.pop(context, result);
           setState(() {
             _internetAlertShown = false;
+          });
+        }
+      }
+    });
+
+    Future.delayed(const Duration(seconds: 1), () {
+      if (!_internetAlertShown) {
+        if (_token == null) {
+          showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                    title: const Text("Cannot open Flint"),
+                    content: const Text("Try again later"),
+                    actions: [
+                      TextButton(
+                        onPressed: () => SystemChannels.platform
+                            .invokeMethod('SystemNavigator.pop'),
+                        child: const Text('Tutup'),
+                      ),
+                    ],
+                  ));
+        } else {
+          setState(() {
+            main2 = _token == 'nothing' ? const SignInPage() : const RootPage();
           });
         }
       }
@@ -204,10 +230,6 @@ class _IndexState extends State<Index> {
               SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
           child: const Text('Tutup'),
         ),
-        TextButton(
-          onPressed: () => Navigator.pop(context, 'OK'),
-          child: const Text('Coba Lagi'),
-        ),
       ],
     );
 
@@ -220,38 +242,10 @@ class _IndexState extends State<Index> {
 
   @override
   Widget build(BuildContext context) {
-    log("ini token " + _token.toString());
-    // Widget main = _token == null
-    //     ? const SplashPage()
-    //     : _token == 'nothing'
-    //         ? const SignInPage()
-    //         : const RootPage();
-    Future.delayed(const Duration(seconds: 1), () {
-      log(_token.toString());
-      // print(" This line is execute after 5 seconds");
-      if (_token == null) {
-        showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-                  title: const Text("Cannot open Flint"),
-                  content: const Text("Try again later"),
-                  actions: [
-                    TextButton(
-                      onPressed: () => SystemChannels.platform
-                          .invokeMethod('SystemNavigator.pop'),
-                      child: const Text('Tutup'),
-                    ),
-                  ],
-                ));
-      } else if (_token == 'nothing') {
-        Navigator.popAndPushNamed(context, '/signin');
-      } else {
-        Navigator.popAndPushNamed(context, '/root');
-      }
-    });
+    // log("ini token " + _token.toString());
 
-    return const SplashPage();
-    // return main;
+    // return const SplashPage();
+    return main2 ?? const SplashPage();
   }
 
   @override
