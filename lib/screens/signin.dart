@@ -45,6 +45,11 @@ class _SignInPageState extends State<SignInPage> {
         prefs.setString('authToken', token);
         Navigator.of(context).popUntil((route) => route.isFirst);
         Navigator.popAndPushNamed(context, '/root');
+      } else {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Cannot Sign In\n" + bodyResponse["message"]),
+        ));
       }
 
       // if (bodyResponse["data"]) {
