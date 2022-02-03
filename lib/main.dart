@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flint/connectivity/connection.dart';
 import 'package:flint/screens/register.dart';
 import 'package:flint/screens/root.dart';
 import 'package:flint/screens/signin.dart';
+import 'package:flint/screens/splash.dart';
 import 'package:flutter/cupertino.dart';
 // import 'package:flint/screens/root.dart';
 import 'package:flutter/material.dart';
@@ -185,7 +188,7 @@ class _IndexState extends State<Index> {
 
   void getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('authToken');
+    String? token = prefs.getString('authToken') ?? 'nothing';
     setState(() {
       _token = token;
     });
@@ -217,9 +220,38 @@ class _IndexState extends State<Index> {
 
   @override
   Widget build(BuildContext context) {
-    // log("ini token " + _token.toString());
-    Widget main = _token == null ? const SignInPage() : const RootPage();
-    return main;
+    log("ini token " + _token.toString());
+    // Widget main = _token == null
+    //     ? const SplashPage()
+    //     : _token == 'nothing'
+    //         ? const SignInPage()
+    //         : const RootPage();
+    Future.delayed(const Duration(seconds: 1), () {
+      log(_token.toString());
+      // print(" This line is execute after 5 seconds");
+      if (_token == null) {
+        showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: const Text("Cannot open Flint"),
+                  content: const Text("Try again later"),
+                  actions: [
+                    TextButton(
+                      onPressed: () => SystemChannels.platform
+                          .invokeMethod('SystemNavigator.pop'),
+                      child: const Text('Tutup'),
+                    ),
+                  ],
+                ));
+      } else if (_token == 'nothing') {
+        Navigator.popAndPushNamed(context, '/signin');
+      } else {
+        Navigator.popAndPushNamed(context, '/root');
+      }
+    });
+
+    return const SplashPage();
+    // return main;
   }
 
   @override
