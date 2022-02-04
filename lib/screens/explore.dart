@@ -4,7 +4,6 @@ import 'package:flint/model/movie_details.dart';
 import 'package:flint/widget/explore_movie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:developer' as dev;
 import 'package:http/http.dart' as http;
 
 import 'package:flint/bloc/movie_bloc.dart';

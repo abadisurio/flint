@@ -1,5 +1,4 @@
 import 'package:flint/dao/movie_dao.dart';
-import 'package:flint/model/movie.dart';
 
 class MovieRepository {
   final movieDao = MovieDao();

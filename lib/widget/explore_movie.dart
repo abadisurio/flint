@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flint/bloc/movie_bloc.dart';
 import 'package:flint/data/icons.dart';
 import 'package:flint/model/movie_details.dart';
-import 'package:flint/screens/explore.dart';
 import 'package:flint/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

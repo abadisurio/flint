@@ -2,7 +2,6 @@
 
 import 'package:flint/bloc/movie_bloc.dart';
 import 'package:flint/data/likes_json.dart';
-import 'package:flint/model/movie.dart';
 import 'package:flint/model/movie_details.dart';
 import 'package:flutter/material.dart';
 
@@ -102,7 +101,7 @@ class LikesPage extends StatelessWidget {
   Widget getMovieCardWidget(AsyncSnapshot<List<MovieDetails>> snapshot) {
     // log("snpashottt" + snapshot.hasData.toString());
     if (snapshot.hasData) {
-      final data = snapshot.data!;
+      // final data = snapshot.data!;
       return Container();
       // return data.isNotEmpty
       //     ? GridView.builder(

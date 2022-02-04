@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flint/connectivity/connection.dart';
 import 'package:flint/screens/register.dart';

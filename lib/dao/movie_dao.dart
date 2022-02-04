@@ -1,17 +1,8 @@
 import 'dart:convert';
 import 'dart:developer' as dev;
-import 'package:flint/database/userToken.dart';
+import 'package:flint/database/user_token.dart';
 import 'package:http/http.dart' as http;
-import 'dart:math';
-
-import 'package:flint/database/database.dart';
-import 'package:flint/model/movie.dart';
 import 'package:flint/model/movie_details.dart';
-// import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sqflite/sqflite.dart';
-// import 'package:sqflite/sqlite_api.dart';
 
 class MovieDao {
   final TokenProvider tokenProvider = TokenProvider.tokenProvider;
