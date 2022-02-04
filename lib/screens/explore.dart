@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:developer';
+import 'package:flint/model/movie_details.dart';
 import 'package:flint/widget/explore_movie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -70,15 +72,16 @@ class _ExplorePageState extends State<ExplorePage>
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<MovieWithDetail>(
-        future: getFilteredMovie(),
-        builder: (context, AsyncSnapshot<MovieWithDetail> snapshot) {
+    return StreamBuilder<List<MovieDetails>>(
+        stream: movieBloc.movies,
+        builder: (context, AsyncSnapshot<List<MovieDetails>> snapshot) {
           final hasData = snapshot.hasData;
           if (hasData) {
             final data = snapshot.data!;
+            log(data.toString());
             // dev.log("snapshot " + snapshot.hasData.toString());
             // dev.log("data " + data.data.movies.toString());
-            if (data.data.movies.isEmpty) {
+            if (data.isEmpty) {
               return AlertDialog(
                 title: const Text('Something is happening'),
                 content: const Text(

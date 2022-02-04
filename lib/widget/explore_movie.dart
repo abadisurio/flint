@@ -3,6 +3,7 @@ import 'dart:developer' as dev;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flint/bloc/movie_bloc.dart';
 import 'package:flint/data/icons.dart';
+import 'package:flint/model/movie_details.dart';
 import 'package:flint/screens/explore.dart';
 import 'package:flint/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
 class ExploreMovie extends StatefulWidget {
-  final MovieWithDetail movieWithDetail;
+  final List<MovieDetails> movieWithDetail;
   const ExploreMovie({Key? key, required this.movieWithDetail})
       : super(key: key);
   @override
@@ -31,18 +32,16 @@ class _ExploreMovieState extends State<ExploreMovie>
     super.initState();
 
     final movieWithDetail = widget.movieWithDetail;
-    final data = movieWithDetail.data;
-    final movies = data.movies;
 
     setState(() {
-      itemsTemp = movies;
-      itemLength = movies.length;
+      itemsTemp = movieWithDetail;
+      itemLength = movieWithDetail.length;
     });
     // dev.log("movies " + movies.toString());
     for (int i = 0; i < itemLength; i++) {
       // dev.log(movies[i].movieDetail.title.toString());
       _swipeItems.add(SwipeItem(
-          content: movies[i],
+          content: itemsTemp[i],
           likeAction: () {
             dev.log("suka");
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -63,7 +62,7 @@ class _ExploreMovieState extends State<ExploreMovie>
 
   @override
   Widget build(BuildContext context) {
-    // dev.log("movieWithDetail " + widget.movieWithDetail.toString());
+    // dev.log("itemsTemp " + widget.itemsTemp.toString());
     return Scaffold(
       body: getBody(),
       bottomSheet: getBottomSheet(),
@@ -79,10 +78,12 @@ class _ExploreMovieState extends State<ExploreMovie>
           matchEngine: _matchEngine,
           itemBuilder: (BuildContext context, int index) {
             final movie = _swipeItems[index].content;
-            final MovieDetail movieDetail = movie.movieDetail;
+            final MovieDetails movieDetail = movie;
             String title = movieDetail.title;
             String imageURI = movieDetail.posterPath;
-            String genres = movie.genres.toString().split("|").join(" | ");
+            String genres =
+                movieDetail.genres.toString().split("|").join(" | ");
+            // String genres = "";
             return Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),

@@ -6,6 +6,7 @@ class MovieDetails {
     required this.title,
     required this.originalTitle,
     required this.overview,
+    required this.genres,
     required this.posterPath,
   });
   late final String movieId;
@@ -14,6 +15,7 @@ class MovieDetails {
   late final String title;
   late final String originalTitle;
   late final String overview;
+  late final String genres;
   late final String posterPath;
 
   MovieDetails.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class MovieDetails {
     title = json['title'];
     originalTitle = json['original_title'];
     overview = json['overview'];
+    genres = json['genres'];
     posterPath = json['poster_path'];
   }
 
@@ -34,6 +37,7 @@ class MovieDetails {
     _data['title'] = title;
     _data['original_title'] = originalTitle;
     _data['overview'] = overview;
+    _data['genres'] = genres;
     _data['poster_path'] = posterPath;
     return _data;
   }
