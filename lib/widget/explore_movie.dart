@@ -3,14 +3,14 @@ import 'dart:developer' as dev;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flint/bloc/movie_bloc.dart';
 import 'package:flint/data/icons.dart';
-import 'package:flint/model/movie_with_detail.dart';
+import 'package:flint/model/movie_details.dart';
 import 'package:flint/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
 class ExploreMovie extends StatefulWidget {
-  final MovieWithDetail movieWithDetail;
+  final MovieDetails movieWithDetail;
   const ExploreMovie({Key? key, required this.movieWithDetail})
       : super(key: key);
   @override
@@ -31,8 +31,8 @@ class _ExploreMovieState extends State<ExploreMovie>
     super.initState();
 
     final movieWithDetail = widget.movieWithDetail;
-    final data = movieWithDetail.data;
-    final movies = data.movies;
+    // final data = movieWithDetail.data;
+    final movies = [];
 
     setState(() {
       itemsTemp = movies;
@@ -79,7 +79,7 @@ class _ExploreMovieState extends State<ExploreMovie>
           matchEngine: _matchEngine,
           itemBuilder: (BuildContext context, int index) {
             final movie = _swipeItems[index].content;
-            final MovieDetail movieDetail = movie.movieDetail;
+            final MovieDetails movieDetail = movie.movieDetail;
             String title = movieDetail.title;
             String imageURI = movieDetail.posterPath;
             String genres = movie.genres.toString().split("|").join(" | ");

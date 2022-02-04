@@ -112,8 +112,10 @@ class LikesPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 Movie movie = data[index];
                 String title = movie.title;
-                String genre = movie.genre;
-                String posterURL = movie.posterURL;
+                String genre = "";
+                String posterURL = "";
+                // String genre = movie.genre;
+                // String posterURL = movie.posterURL;
                 return SizedBox(
                   height: 500,
                   child: Card(
@@ -171,7 +173,7 @@ class LikesPage extends StatelessWidget {
                               color: Colors.transparent,
                               child: InkWell(
                                 onTap: () {
-                                  movieBloc.deleteMovieById(movie.id);
+                                  movieBloc.deleteMovieById(0);
                                 },
                               )),
                         )

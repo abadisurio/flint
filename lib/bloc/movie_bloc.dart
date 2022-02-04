@@ -14,22 +14,22 @@ class MovieBloc {
   }
 
   void getMovies({String? query}) async {
-    _movieController.sink
-        .add(await _movieRepository.getAllMovies(query: query));
+    // _movieController.sink
+    //     .add(await _movieRepository.getAllMovies(query: query));
   }
 
   addMovie(Movie movie) async {
-    await _movieRepository.insertMovie(movie);
+    // await _movieRepository.insertMovie(movie);
     getMovies();
   }
 
   updateMovie(Movie movie) async {
-    await _movieRepository.updateMovie(movie);
+    // await _movieRepository.updateMovie(movie);
     getMovies();
   }
 
   deleteMovieById(int id) async {
-    _movieRepository.deleteMovieById(id);
+    // _movieRepository.deleteMovieById(id);
     getMovies();
   }
 
