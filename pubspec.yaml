@@ -34,7 +34,7 @@ dependencies:
   line_icons:
   flutter_svg:
   flutter_custom_clippers: ^1.1.2
-  swipe_cards: ^0.1.0
+  swipe_cards: ^1.0.0
   sqflite: ^2.0.2
   path_provider: ^2.0.8
   connectivity_plus: ^2.2.0
