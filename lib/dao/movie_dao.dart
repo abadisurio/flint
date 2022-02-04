@@ -19,36 +19,37 @@ class MovieDao {
   Future<List<MovieDetails>> getFilteredMovies() async {
     // void getFilteredMovies() async {
     // void getFilteredMovie() async {
-    final token2 = await tokenProvider.token;
-    if (token2 != null) {
-      dev.log("ini token2: " + token2);
-    }
-    // Future.delayed(const Duration(seconds: 1), () {
-    //   dev.log("ini token3: " + MovieDao().token.toString());
-    // });
-    // // List<Map<String, dynamic>>? result;
-    // // // String token =
-    // // //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjFmOTNlMjdlODg1NjAxMWIxNWZmMmMwIiwidXNlcm5hbWUiOiJhYmFkaXN1cmlvMyIsImlhdCI6MTY0Mzg1NTAwMiwiZXhwIjoxNjQ0NDU5ODAyfQ.Xw4If_vmGHn79SniiVHmOuo7FdY2ENJT1l3v5oEaHZM';
-    // String url = 'http://10.0.2.2:3000/api/getFilteredMoviesWithDetail';
-    // Map<String, String> requestHeaders = {
-    //   'Content-type': 'application/json',
-    //   'Accept': 'application/json',
-    //   'Authorization': token ?? "hehe"
-    // };
-    // var client = http.Client();
+    final token = await tokenProvider.token;
+    if (token == null) return [];
+    List<Map<String, dynamic>>? result;
+    // // String token =
+    // //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjFmOTNlMjdlODg1NjAxMWIxNWZmMmMwIiwidXNlcm5hbWUiOiJhYmFkaXN1cmlvMyIsImlhdCI6MTY0Mzg1NTAwMiwiZXhwIjoxNjQ0NDU5ODAyfQ.Xw4If_vmGHn79SniiVHmOuo7FdY2ENJT1l3v5oEaHZM';
+    String url = 'http://10.0.2.2:3000/api/getFilteredMoviesWithDetail';
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': token
+    };
+    var client = http.Client();
     // dev.log(requestHeaders.toString());
     // dev.log("test");
-    // try {
-    //   final response =
-    //       await client.get(Uri.parse(url), headers: requestHeaders);
-    //   dev.log(response.body);
+    try {
+      final response =
+          await client.get(Uri.parse(url), headers: requestHeaders);
+      final resultJson = json.decode(response.body);
+      result = resultJson['data']['movies'].cast<Map<String, dynamic>>();
+      // dev.log(moviesJson[0].toString());
+      // return MovieWithDetail.fromJson(jsonDecode(response.body));
+    } catch (err) {
+      dev.log(err.toString());
+    } finally {
+      client.close();
+    }
 
-    //   // return MovieWithDetail.fromJson(jsonDecode(response.body));
-    // } catch (err) {
-    //   dev.log(err.toString());
-    // } finally {
-    //   client.close();
-    // }
-    return [];
+    List<MovieDetails> moviesWithDetail = result != null
+        ? result.map((e) => MovieDetails.fromJson(e['movie_detail'])).toList()
+        : [];
+
+    return moviesWithDetail;
   }
 }
