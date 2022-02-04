@@ -1,36 +1,40 @@
 import 'dart:async';
 
 import 'package:flint/model/movie.dart';
+import 'package:flint/model/movie_details.dart';
 import 'package:flint/repository/movie_repository.dart';
 
 class MovieBloc {
   final _movieRepository = MovieRepository();
-  final _movieController = StreamController<List<Movie>>.broadcast();
+  final _movieController = StreamController<List<MovieDetails>>.broadcast();
 
   get movies => _movieController.stream;
 
   MovieBloc() {
-    getMovies();
+    getFilteredMovies();
   }
 
-  void getMovies({String? query}) async {
-    // _movieController.sink
-    //     .add(await _movieRepository.getAllMovies(query: query));
+  void getFilteredMovies() async {
+    _movieController.sink.add(await _movieRepository.getFilteredMovies());
   }
+  // void getFilteredMovies({String? query}) async {
+  //   // _movieController.sink
+  //   //     .add(await _movieRepository.getAllMovies(query: query));
+  // }
 
   addMovie(Movie movie) async {
     // await _movieRepository.insertMovie(movie);
-    getMovies();
+    getFilteredMovies();
   }
 
   updateMovie(Movie movie) async {
     // await _movieRepository.updateMovie(movie);
-    getMovies();
+    getFilteredMovies();
   }
 
   deleteMovieById(int id) async {
     // _movieRepository.deleteMovieById(id);
-    getMovies();
+    getFilteredMovies();
   }
 
   dispose() {
