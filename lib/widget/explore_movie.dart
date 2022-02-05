@@ -10,8 +10,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
 class ExploreMovie extends StatefulWidget {
-  final List<MovieDetails> movieWithDetail;
-  const ExploreMovie({Key? key, required this.movieWithDetail})
+  final List<MovieDetails> moviesWithDetail;
+  final MovieBloc movieBloc;
+  const ExploreMovie(
+      {Key? key, required this.moviesWithDetail, required this.movieBloc})
       : super(key: key);
   @override
   _ExploreMovieState createState() => _ExploreMovieState();
@@ -19,26 +21,26 @@ class ExploreMovie extends StatefulWidget {
 
 class _ExploreMovieState extends State<ExploreMovie>
     with TickerProviderStateMixin {
-  final MovieBloc movieBloc = MovieBloc();
+  late final MovieBloc movieBloc;
 
   final List<SwipeItem> _swipeItems = <SwipeItem>[];
   late MatchEngine _matchEngine;
   List itemsTemp = [];
   int itemLength = 0;
+  int swipeCount = 0;
 
   @override
   void initState() {
     super.initState();
-
-    final movieWithDetail = widget.movieWithDetail;
+    movieBloc = widget.movieBloc;
+    final moviesWithDetail = widget.moviesWithDetail;
 
     setState(() {
-      itemsTemp = movieWithDetail;
-      itemLength = movieWithDetail.length;
+      itemsTemp = moviesWithDetail;
+      itemLength = moviesWithDetail.length;
     });
     // dev.log("movies " + movies.toString());
     for (int i = 0; i < itemLength; i++) {
-      // dev.log(movies[i].movieDetail.title.toString());
       _swipeItems.add(SwipeItem(
           content: itemsTemp[i],
           likeAction: () {
@@ -55,17 +57,40 @@ class _ExploreMovieState extends State<ExploreMovie>
             dev.log("Superlike");
           }));
     }
+    movieBloc.reloadFilteredMovie();
 
     _matchEngine = MatchEngine(swipeItems: _swipeItems);
   }
 
   @override
   Widget build(BuildContext context) {
-    // dev.log("itemsTemp " + widget.itemsTemp.toString());
     return Scaffold(
       body: getBody(),
       bottomSheet: getBottomSheet(),
     );
+  }
+
+  void getMoreMovies() {
+    for (int i = 0; i < widget.moviesWithDetail.length; i++) {
+      // dev.log('e.title' + widget.moviesWithDetail[i].title);
+      // dev.log('movies ' + movies[i].title.toString());
+      _swipeItems.add(SwipeItem(
+          content: widget.moviesWithDetail[i],
+          likeAction: () {
+            dev.log("suka");
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text("Liked"),
+              duration: Duration(milliseconds: 500),
+            ));
+          },
+          nopeAction: () {
+            dev.log("Nope");
+          },
+          superlikeAction: () {
+            dev.log("Superlike");
+          }));
+    }
+    // widget.moviesWithDetail[0].title
   }
 
   Widget getBody() {
@@ -74,6 +99,19 @@ class _ExploreMovieState extends State<ExploreMovie>
       origin: const Offset(0, -120),
       child: SizedBox(
         child: SwipeCards(
+          itemChanged: (p0, p1) {
+            swipeCount++;
+            // dev.log(widget.moviesWithDetail.length.toString());
+            // dev.log('p1 ' + p1.toString());
+            // dev.log('_swipeItems.length ' + _swipeItems.length.toString());
+            // dev.log('swipeCount ' + swipeCount.toString());
+            // dev.log('selisih ' + (_swipeItems.length - swipeCount).toString());
+            // dev.log((itemLength - swipeCount).toString());
+            if (_swipeItems.length - swipeCount < 3) {
+              // dev.log('reload');
+              getMoreMovies();
+            }
+          },
           matchEngine: _matchEngine,
           itemBuilder: (BuildContext context, int index) {
             final movie = _swipeItems[index].content;

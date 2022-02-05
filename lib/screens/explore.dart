@@ -1,3 +1,5 @@
+// import 'dart:developer';
+
 import 'package:flint/model/movie_details.dart';
 import 'package:flint/widget/explore_movie.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +18,7 @@ class ExplorePage extends StatelessWidget {
           final hasData = snapshot.hasData;
           if (hasData) {
             final data = snapshot.data!;
+            // log(data.length.toString());
             if (data.isEmpty) {
               return AlertDialog(
                 title: const Text('Something is happening'),
@@ -30,7 +33,7 @@ class ExplorePage extends StatelessWidget {
                 ],
               );
             } else {
-              return ExploreMovie(movieWithDetail: data);
+              return ExploreMovie(moviesWithDetail: data, movieBloc: movieBloc);
             }
           } else {
             return const CircularProgressIndicator();

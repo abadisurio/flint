@@ -22,7 +22,7 @@ class MovieBloc {
   //   //     .add(await _movieRepository.getAllMovies(query: query));
   // }
 
-  addMovie(Movie movie) async {
+  reloadFilteredMovie() async {
     // await _movieRepository.insertMovie(movie);
     getFilteredMovies();
   }

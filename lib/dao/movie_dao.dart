@@ -28,7 +28,10 @@ class MovieDao {
     }
 
     List<MovieDetails> moviesWithDetail = result != null
-        ? result.map((e) => MovieDetails.fromJson(e['movie_detail'])).toList()
+        ? result.map((e) {
+            // dev.log(e['movie_detail']['title']);
+            return MovieDetails.fromJson(e['movie_detail']);
+          }).toList()
         : [];
 
     return moviesWithDetail;
