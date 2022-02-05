@@ -129,7 +129,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         ),
                       )))),
-          SliverFillRemaining(child: LikesPage())
+          const SliverFillRemaining(child: LikesPage())
         ],
       ),
     );
