@@ -66,7 +66,7 @@ class _RootPageState extends State<RootPage> {
   Widget getBody() {
     return IndexedStack(
       index: pageIndex,
-      children: const [ExplorePage(), MatchPage(), ProfilePage()],
+      children: [ExplorePage(), const MatchPage(), const ProfilePage()],
     );
   }
 
